@@ -30,6 +30,9 @@
     <div class="container">
         <div class="card quiz-card">
             <img src="img/geo.jpg" alt="card-img-top" id="header-image">
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 25%;">25%</div>
+            </div>
 
             <div class="card-body text-center" id="end-screen" style="display: none;">
                 <div class="text-center quiz-end">
@@ -37,6 +40,12 @@
                 </div>
                 <div class="text-ceneter">
                     Du hast <b id="right-questions"></b> Fragen von <b id="total-qeuestions">18</b> richtig beantwortet.
+                </div>
+                <div>
+
+                </div>
+                <div class="button-row">
+                    <button onclick="restartGame()" class="btn btn-primary">Neuer Versuch?</button>
                 </div>
             </div>
 
