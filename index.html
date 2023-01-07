@@ -29,8 +29,18 @@
 
     <div class="container">
         <div class="card quiz-card">
-            <img src="img/geo.jpg" alt="card-img-top">
-            <div class="card-body">
+            <img src="img/geo.jpg" alt="card-img-top" id="header-image">
+
+            <div class="card-body text-center" id="end-screen" style="display: none;">
+                <div class="text-center quiz-end">
+                    Quiz beendet!
+                </div>
+                <div class="text-ceneter">
+                    Du hast <b id="right-questions"></b> Fragen von <b id="total-qeuestions">18</b> richtig beantwortet.
+                </div>
+            </div>
+
+            <div class="card-body" id="question-body">
                 <h5 class="card-title" id="question-text">Frage</h5>
 
                 <div class="card quiz-answer-card mb-2" onclick="answer('answer_1')">
@@ -59,9 +69,10 @@
 
                 <div class="question-footer">
                     <span>
-                        <b>1</b> von <b id="all-questions">18</b> Fragen
+                        <b id="question-number">1</b> von <b id="all-questions">18</b> Fragen
                     </span>
-                    <button class="btn btn-primary" id="next-button" disabled>Nächste Frage</button>
+                    <button onclick="nextQuestion()" class="btn btn-primary" id="next-button" disabled>Nächste
+                        Frage</button>
                 </div>
 
             </div>
