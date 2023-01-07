@@ -160,11 +160,17 @@ function init() {
 
 
 function showQuestion() {
-    if (currentQuestion >= questions.length) { // show end screen
+    if (gameIsOver()) { // show end-screen 
         showEndscreen();
-    } else { // show question
-        updateToNextQuestion();
+    } else { 
+        updateProgressBar();
+        updateToNextQuestion(); // nächste Frsge wird geladen 
     }
+}
+
+
+function gameIsOver() {
+    return currentQuestion >= questions.length;
 }
 
 
@@ -178,15 +184,19 @@ function showEndscreen() {
 }
 
 
-function updateToNextQuestion() {
+function updateProgressBar() {
     let percent = (currentQuestion + 1) / questions.length ;
     percent = Math.round(percent * 100);
+
     document.getElementById('progress-bar').innerHTML = `${percent} %`;
     document.getElementById('progress-bar').style = `width: ${percent}%;`;   
+}
 
+
+function updateToNextQuestion() {
     let question = questions[currentQuestion]; // Wir holen aus dem Array questions den aktuellen JSON(currentQuestion, hier 0)
     
-    question['question']; // Wi holen die Frage aus dem JSON questions
+    question['question']; // Wir holen die Frage aus dem JSON questions
     document.getElementById('question-text').innerHTML = question['question']; // Wir holen per ID('question-text) die Card mit der Frage und lassne die aktuelle Frage dort anzeigen
     document.getElementById('answer_1').innerHTML = question['answer_1']; // Per ID 'answer_1 bis 4'
     document.getElementById('answer_2').innerHTML = question['answer_2']; // holen wir die jew. Antwort-Card
@@ -202,11 +212,9 @@ function answer(selection) {
     // Die richtige Antwort in einer variable; die variable question greift auf das jew. JSON Array zu
     let idOfRightAnswer = `answer_${question['right_answer']}`;
 
-
     // Wir finden so heraus, auf welche Antwort der User klickt ( per selectedQuestionNumber greifen wir auf die letzte Stelle von answer zu )
-    if (selectedQuestionNumber == question['right_answer']) {
+    if (rightAnswerSelected(question, selectedQuestionNumber)) {
         document.getElementById(selection).parentNode.classList.add('bg-success');// parentNode greift auf das parent element zu.
-        document.getElementById('next-button').disabled = false;
         AUDIO_SUCCESS.play();
         rightQuestions++;
     } else { // somit wollen wir der parent div eine Klasse hinzufügen per classList.add
@@ -216,6 +224,12 @@ function answer(selection) {
 
         document.getElementById('next-button').disabled = false; // der Button für die nächste Frage wird wieder friegegeben
     }  // nachdem wir auf eine ANtwort geklickt haben
+    document.getElementById('next-button').disabled = false;
+}
+
+
+function rightAnswerSelected(question, selectedQuestionNumber) {
+    return selectedQuestionNumber == question['right_answer'];
 }
 
 
