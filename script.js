@@ -145,13 +145,21 @@ let questions = [
     },
 ];
 
-// Wir holen die  "Nullte" Stelle aus dem JSON Array
+/**
+ * Fetch the position 0 from the array.
+ * The two audios are for the right and wrong answers.
+ */
 let currentQuestion = 0;
 let rightQuestions = 0;
 let AUDIO_SUCCESS = new Audio('audio/success.wav');
 let AUDIO_FAIL = new Audio('audio/fail.wav');
 
 
+/**
+ * Body onload function. Initialize at start this function. 
+ * It shows how many questions there are (length of the array questions).
+ * Load the function showQuestion().
+ */
 function init() {
     document.getElementById('all-questions').innerHTML = questions.length;
 
@@ -159,31 +167,45 @@ function init() {
 }
 
 
+/**
+ * If the game is over (checks with the function gameIsOver()) then call teh function showEndScreen.
+ * Else call the function updateProgressBar() and the functtion updateToNextQuesrion().
+ */
 function showQuestion() {
     if (gameIsOver()) { // show end-screen 
         showEndscreen();
     } else { 
         updateProgressBar();
-        updateToNextQuestion(); // nächste Frsge wird geladen 
+        updateToNextQuestion(); 
     }
 }
 
 
+/**
+ * Checks if the gam is over.
+ * @returns If the variable currentQuestion ist >= then the length of the array questions. 
+ */
 function gameIsOver() {
     return currentQuestion >= questions.length;
 }
 
 
+/**
+ * If the game is over then show the endscreen. 
+ */
 function showEndscreen() {
-    document.getElementById('end-screen').style = ''; // Damit entfernen wir den style (hier wird display:none entfernt)
-    document.getElementById('question-body').style = 'display: none';
+    document.getElementById('end-screen').style = ''; // Remove the style (here remove d-none).
+    document.getElementById('question-body').style = 'display: none'; // The d-none to the content with the questions to hide it.
 
-    document.getElementById('total-qeuestions').innerHTML = questions.length;
-    document.getElementById('right-questions').innerHTML = rightQuestions;
-    document.getElementById('header-image').src = 'img/medal.jpg';
+    document.getElementById('total-qeuestions').innerHTML = questions.length; // Shows how many quesiton they are total. 
+    document.getElementById('right-questions').innerHTML = rightQuestions; // Shows how many right questions does the user gues.
+    document.getElementById('header-image').src = 'img/medal.jpg'; // Shows an image in the endscreen.
 }
 
 
+/**
+ * This functiuons updates the progress bar after every question (in precent). 
+ */
 function updateProgressBar() {
     let percent = (currentQuestion + 1) / questions.length ;
     percent = Math.round(percent * 100);
@@ -193,11 +215,14 @@ function updateProgressBar() {
 }
 
 
+/**
+ * This function shows the next question with the possible answers.
+ */
 function updateToNextQuestion() {
-    let question = questions[currentQuestion]; // Wir holen aus dem Array questions den aktuellen JSON(currentQuestion, hier 0)
+    let question = questions[currentQuestion]; // Wir holen aus dem Array questions den aktuellen JSON und holen dort das erste Element(currentQuestion). Dieses fängt mit  an
     
-    question['question']; // Wir holen die Frage aus dem JSON questions
-    document.getElementById('question-text').innerHTML = question['question']; // Wir holen per ID('question-text) die Card mit der Frage und lassne die aktuelle Frage dort anzeigen
+    question['question']; // Wir holen die Frage aus dem JSON questions, holen so den Text
+    document.getElementById('question-text').innerHTML = question['question']; // Wir holen per ID('question-text) die Card mit der Frage und lassen die aktuelle Frage dort anzeigen
     document.getElementById('answer_1').innerHTML = question['answer_1']; // Per ID 'answer_1 bis 4'
     document.getElementById('answer_2').innerHTML = question['answer_2']; // holen wir die jew. Antwort-Card
     document.getElementById('answer_3').innerHTML = question['answer_3']; // und lassen die jew. Antwort dort
@@ -205,12 +230,12 @@ function updateToNextQuestion() {
     document.getElementById('question-number').innerHTML = currentQuestion + 1; // Hiermit wird die Numemr der aktuellen Frage angezeigt
 }
 
-// In der Variable selection stecken answer_1 bis answer_4
+// In der Variable selection stecken answer_1 bis answer_4. Diese Funktion haben wir ja den Antworten als Funktion mitgegeben
 function answer(selection) {
     let question = questions[currentQuestion];
-    let selectedQuestionNumber = selection.slice(-1); // Damit greifen wir auf den letzten Buchstaben des Strings im Array(hier auf die "Zahl" hinter answer_)
-    // Die richtige Antwort in einer variable; die variable question greift auf das jew. JSON Array zu
-    let idOfRightAnswer = `answer_${question['right_answer']}`;
+    let selectedQuestionNumber = selection.slice(-1); // Damit greifen wir auf den letzten Buchstaben des Strings im Array(hier auf die "Zahl" hinter answer_). get last chararcter of a string (letzten Buchstaben)
+    // Die richtige Antwort in einer Variable; die Variable question greift auf das jew. JSON Array zu
+    let idOfRightAnswer = `answer_${question['right_answer']}`; // Variable für die richtige Antwort, die angezeigt wird, wenn der User auf eine falsche Antwort klickt
 
     // Wir finden so heraus, auf welche Antwort der User klickt ( per selectedQuestionNumber greifen wir auf die letzte Stelle von answer zu )
     if (rightAnswerSelected(question, selectedQuestionNumber)) {
